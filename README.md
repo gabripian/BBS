@@ -35,3 +35,6 @@ make
 # Connect with client
 ./client <server_ip> <port>
 
+```
+
+**Note:** Server keys must be generated and placed in the respective directories before first run.
