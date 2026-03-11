@@ -1,7 +1,37 @@
-This is a group project
+# BBS – Cryptographically Secure Bulletin Board System
 
-The BBS is a system that permits users to download messages that have been posted on the virtual board. The messages can be inserted by the users.
+**Group project** – C++ client-server application for Linux implementing a secure **Bulletin Board System (BBS)** where users can read and post messages identified by nickname and password.
 
-This application is a C++ only client-server application; it consists by a multithread server (server.cpp) and a client (client.cpp).
+## Overview
 
-This application treats the security like a priority, in fact it uses OpenSSL for every security-related operation.
+**BBS Server** (multithreaded) stores user data and messages.  
+**Clients** connect via TCP to perform 5 operations:
+- Register/Login with cryptographic authentication  
+- Read last *n* messages  
+- Download specific message  
+- Add new message  
+- Logout  
+
+**Security priority**: Uses **OpenSSL** for AES-256, RSA-Ephemeral key exchange, HMAC-SHA256, ensuring confidentiality, integrity, replay protection, non-malleability, and perfect forward secrecy.
+
+## Protocol Summary
+
+1. **Key Exchange (RSAE)**: Client-server negotiate session key using ephemeral RSA keys.  
+2. **Registration/Login**: Includes challenge-response via email, encrypted with session key.  
+3. **Session**: Encrypted commands (List/Get/Add/Logout) with counter for replay protection.  
+
+All session messages follow **Encrypt-then-MAC** paradigm with fresh IVs.
+
+
+## Build & Run
+
+```bash
+# Compile server and client
+make
+
+# Run server (multithreaded)
+./server
+
+# Connect with client
+./client <server_ip> <port>
+
